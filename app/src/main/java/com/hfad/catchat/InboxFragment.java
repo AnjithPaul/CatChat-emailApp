@@ -1,6 +1,7 @@
 package com.hfad.catchat;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -49,6 +50,16 @@ public class InboxFragment extends Fragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         inboxRecycler.setLayoutManager(layoutManager);
+
+        adapter.setListner(new EmailAdapter.Listener() {
+            @Override
+            public void onClick(int position) {
+                Intent intent = new Intent(getActivity(),ViewMailActivity.class);
+                intent.putExtra(ViewMailActivity.EXTRA_MAIL_ID,position);
+                getActivity().startActivity(intent);
+
+            }
+        });
         return inboxRecycler;
     }
 

@@ -2,10 +2,11 @@ package com.hfad.catchat;
 
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.view.View;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,11 +16,19 @@ public class EmailAdapter extends RecyclerView.Adapter<EmailAdapter.ViewHolder> 
     private String[] names;
     private String[] messages;
     private int[] imageIds;
+    private Listener listner;
 
     public EmailAdapter( String [] names, String[] messages, int[] imageIds){
         this.names = names;
         this.messages = messages;
         this.imageIds = imageIds;
+    }
+
+    interface Listener {
+        void onClick(int position);
+    }
+    public void setListner(Listener listner){
+        this.listner = listner;
     }
 
     @Override
@@ -44,7 +53,7 @@ public class EmailAdapter extends RecyclerView.Adapter<EmailAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position){
+    public void onBindViewHolder(ViewHolder holder, final int position){
 
         CardView cardView = holder.cv;
         ImageView imageView = cardView.findViewById(R.id.user_dp);
@@ -55,5 +64,13 @@ public class EmailAdapter extends RecyclerView.Adapter<EmailAdapter.ViewHolder> 
         title.setText(names[position]);
         TextView content = cardView.findViewById(R.id.card_content);
         content.setText(messages[position]);
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listner!=null){
+                    listner.onClick(position);
+                }
+            }
+        });
     }
 }
