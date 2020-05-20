@@ -13,4 +13,9 @@
     <string name="nav_feedback">Giv us feedback</string>
     <string name="nav_open_drawer">Open navigation drawer</string>
     <string name="nav_close_drawer">Close navigation drawer</string>
+    <string name="to_label">To:</string>
+    <string name="email_hint">Enter email address</string>
+    <string name="subject_hint">Subject</string>
+    <string name="message_hint">Message</string>
+    <string name="send_button">Send</string>
 </resources>

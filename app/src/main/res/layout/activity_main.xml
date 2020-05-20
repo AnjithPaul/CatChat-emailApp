@@ -19,7 +19,21 @@
         <FrameLayout
             android:id="@+id/content_frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="16dp"
+                android:clickable="true"
+                android:elevation="6dp"
+                android:onClick="onAdd"
+                android:tint="@color/background"
+                app:backgroundTint="#FF1744"
+                app:srcCompat="@android:drawable/stat_notify_chat" />
+        </FrameLayout>
 
     </LinearLayout>
 

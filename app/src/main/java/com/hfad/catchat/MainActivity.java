@@ -10,8 +10,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -88,6 +91,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void onAdd(View view){
+        FloatingActionButton fab = findViewById(R.id.fab);
+       fab.hide();
+        Intent intent = new Intent(this,ComposeActivity.class);
+        startActivity(intent);
+       Handler handler = new Handler();
+       handler.postDelayed(new Runnable() {
+           @Override
+           public void run() {
+               FloatingActionButton fab = findViewById(R.id.fab);
+               fab.show();
+
+           }
+       },30);
+
+
     }
 
 }

@@ -9,10 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewMailActivity"
-            android:parentActivityName=".MainActivity">
-
-        </activity>
+        <activity
+            android:name=".ComposeActivity"
+            android:parentActivityName=".MainActivity"> </activity>
+        <activity
+            android:name=".ViewMailActivity"
+            android:parentActivityName=".MainActivity"></activity>
         <activity android:name=".FeedbackActivity" />
         <activity android:name=".HelpActivity" />
         <activity android:name=".MainActivity">
