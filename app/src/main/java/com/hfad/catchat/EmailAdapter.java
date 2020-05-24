@@ -45,7 +45,7 @@ public class EmailAdapter extends RecyclerView.Adapter<EmailAdapter.ViewHolder> 
         }
     }
 
-    @Override
+     @Override
     public EmailAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,int viewType){
 
         CardView cardView = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_email,parent,false);

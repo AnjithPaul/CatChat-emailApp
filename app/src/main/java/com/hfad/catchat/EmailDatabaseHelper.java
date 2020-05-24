@@ -13,6 +13,7 @@ public class EmailDatabaseHelper extends SQLiteOpenHelper {
         super(context,DB_NAME,null,DB_VERSION);
     }
 
+
     @Override
     public void onCreate(SQLiteDatabase db){
         updateMyDatabase(db,0,DB_VERSION);
@@ -33,7 +34,8 @@ public class EmailDatabaseHelper extends SQLiteOpenHelper {
     private void updateMyDatabase(SQLiteDatabase db,int oldVersion, int newVersion){
 
         if(oldVersion<1){
-            db.execSQL("CREATE TABLE SENTMAIL"+"(_id INTEGER PRIMARY KEY AUTOINCREMENT,EMAILID TEXT,SUBJECT TEXT,MESSAGE TEXT)");
+            db.execSQL("DROP TABLE IF EXISTS SENTMAIL");
+            db.execSQL("CREATE TABLE SENTMAIL"+"(_id INTEGER PRIMARY KEY AUTOINCREMENT,EMAILID TEXT,SUBJECT TEXT,MESSAGE TEXT,TIME TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
         }
     }
 }

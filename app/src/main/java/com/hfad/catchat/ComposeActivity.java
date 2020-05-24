@@ -74,19 +74,12 @@ public class ComposeActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(ComposeActivity.this,"Database unavailable",Toast.LENGTH_SHORT);
                 toast.show();
             }
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    String uriText = "mailto:"+email+"?subject=" + Uri.encode(sub)+"&body=" + Uri.encode(body);
-                    Uri uri = Uri.parse(uriText);
-                    Intent intent = new Intent(Intent.ACTION_SENDTO,uri);
-                    if (intent.resolveActivity(getPackageManager()) != null) {
-                        startActivity(intent);
-                    }
-                }
-            },2000);
-
+            String uriText = "mailto:"+email+"?subject=" + Uri.encode(sub)+"&body=" + Uri.encode(body);
+            Uri uri = Uri.parse(uriText);
+            Intent intent = new Intent(Intent.ACTION_SENDTO,uri);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            }
         }
     }
 }
