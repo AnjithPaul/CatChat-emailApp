@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +25,8 @@ import android.widget.Toast;
  */
 public class SentItemsFragment extends Fragment {
 
+    private SQLiteDatabase db;
+    private DbRecyclerAdapter adapter;
 
     public SentItemsFragment() {
         // Required empty public constructor
@@ -35,11 +39,11 @@ public class SentItemsFragment extends Fragment {
         // Inflate the layout for this fragment
         RecyclerView sentItemsRecycler = (RecyclerView) inflater.inflate(R.layout.fragment_sent_items,container,false);
 
-        SQLiteOpenHelper dbHelper = new EmailDatabaseHelper(getActivity());
+        final SQLiteOpenHelper dbHelper = new EmailDatabaseHelper(getActivity());
         try {
-            SQLiteDatabase db = dbHelper.getReadableDatabase();
-            Cursor cursor = db.query("SENTMAIL", new String[]{"_id","EMAILID","SUBJECT","MESSAGE","TIME"}, null, null, null, null,"TIME DESC");
-            DbRecyclerAdapter adapter = new DbRecyclerAdapter(getActivity(), cursor);
+            db = dbHelper.getReadableDatabase();
+            Cursor cursor = getAllItems();
+            adapter = new DbRecyclerAdapter(getActivity(), cursor);
             sentItemsRecycler.setAdapter(adapter);
             Log.v("try is clear ","OK");
         }catch (SQLException e){
@@ -49,8 +53,30 @@ public class SentItemsFragment extends Fragment {
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             sentItemsRecycler.setLayoutManager(layoutManager);
 
+            new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT |ItemTouchHelper.RIGHT) {
+                @Override
+                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                    removeItem((long) viewHolder.itemView.getTag());
+                }
+            }).attachToRecyclerView(sentItemsRecycler);
             return sentItemsRecycler;
 
     }
+
+    private void removeItem(long id){
+        db.delete("SENTMAIL","_id =?",new String[]{Long.toString(id)});
+        adapter.swapCursor(getAllItems());
+    }
+
+    private Cursor getAllItems() {
+        return db.query("SENTMAIL", new String[]{"_id","EMAILID","SUBJECT","MESSAGE","TIME"}, null, null, null, null,"TIME DESC");
+    }
+
+
 
 }

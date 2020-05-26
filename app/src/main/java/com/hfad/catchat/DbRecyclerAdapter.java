@@ -47,12 +47,13 @@ public class DbRecyclerAdapter extends RecyclerView.Adapter<DbRecyclerAdapter.Vi
         String name = cursor.getString(cursor.getColumnIndex("EMAILID"));
        // String subject = cursor.getString(cursor.getColumnIndex("SUBJECT"));
         String message = cursor.getString(cursor.getColumnIndex("MESSAGE"));
-
+        long id = cursor.getLong(cursor.getColumnIndex("_id"));
 
         CardView cardView = holder.cv;
         TextView title = cardView.findViewById(R.id.card_title);
         TextView content = cardView.findViewById(R.id.card_content);
         ImageView imageView =cardView.findViewById(R.id.user_dp);
+        holder.itemView.setTag(id);
 
 
         title.setText(name);
