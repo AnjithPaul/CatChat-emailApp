@@ -31,7 +31,7 @@
                 android:elevation="6dp"
                 android:onClick="onAdd"
                 android:tint="@color/background"
-                app:backgroundTint="#FF1744"
+                app:backgroundTint="@color/highlight"
                 app:srcCompat="@android:drawable/stat_notify_chat" />
         </FrameLayout>
 

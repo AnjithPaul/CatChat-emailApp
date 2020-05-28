@@ -50,17 +50,18 @@ public class InboxFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         inboxRecycler.setLayoutManager(layoutManager);
 
-       /* adapter.setListner(new EmailAdapter.Listener() {
+       adapter.setListner(new DbRecyclerAdapter.Listener() {
             @Override
             public void onClick(int position) {
                 Intent intent = new Intent(getActivity(),ViewMailActivity.class);
                 intent.putExtra(ViewMailActivity.EXTRA_MAIL_ID,position);
+                intent.putExtra(ViewMailActivity.EXTRA_TABLE_NAME,"RECEIVEDMAIL");
                 getActivity().startActivity(intent);
 
             }
         });
 
-        */
+
         return inboxRecycler;
     }
 

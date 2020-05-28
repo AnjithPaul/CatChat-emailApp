@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class EmailDatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "email";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 4;
 
     EmailDatabaseHelper (Context context){
         super(context,DB_NAME,null,DB_VERSION);
@@ -43,6 +43,14 @@ public class EmailDatabaseHelper extends SQLiteOpenHelper {
             insertMail(db,"stanleykubrick@gmail.com","Subject is relative","If it can be written, or thought, it can be filmed.");
             insertMail(db,"martinscorsese@gmail.com","Cinema","Cinema is a matter of what's in the frame and what's out.");
             insertMail(db,"alfredhitchcock@gmail.com","A secret","There is no terror in the bang, only in the anticipation of it.");
+
+        }
+        if(oldVersion<4){
+            db.execSQL("DROP TABLE IF EXISTS RECEIVEDMAIL");
+            db.execSQL("CREATE TABLE RECEIVEDMAIL"+"(_id INTEGER PRIMARY KEY AUTOINCREMENT,EMAILID TEXT,SUBJECT TEXT,MESSAGE TEXT,TIME TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
+            insertMail(db,"stanleykubrick@gmail.com","Subject is relative","If it can be written, or thought, it can be filmed.\n \tLorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacus tortor, laoreet quis leo vel, vulputate rutrum massa. Nunc eget commodo felis. Donec suscipit at ante eu dapibus. Nullam ipsum metus, ultricies in nisi sit amet, ullamcorper pretium nisi. Aliquam consectetur dapibus gravida. Suspendisse ornare, urna non ullamcorper convallis, sem ante sollicitudin ante, venenatis rhoncus dolor purus vitae mauris. Nam.");
+            insertMail(db,"martinscorsese@gmail.com","Cinema","Cinema is a matter of what's in the frame and what's out.\n \tLorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacus tortor, laoreet quis leo vel, vulputate rutrum massa. Nunc eget commodo felis. Donec suscipit at ante eu dapibus. Nullam ipsum metus, ultricies in nisi sit amet, ullamcorper pretium nisi. Aliquam consectetur dapibus gravida. Suspendisse ornare, urna non ullamcorper convallis, sem ante sollicitudin ante, venenatis rhoncus dolor purus vitae mauris. Nam.");
+            insertMail(db,"alfredhitchcock@gmail.com","A secret","There is no terror in the bang, only in the anticipation of it.\n \tLorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacus tortor, laoreet quis leo vel, vulputate rutrum massa. Nunc eget commodo felis. Donec suscipit at ante eu dapibus. Nullam ipsum metus, ultricies in nisi sit amet, ullamcorper pretium nisi. Aliquam consectetur dapibus gravida. Suspendisse ornare, urna non ullamcorper convallis, sem ante sollicitudin ante, venenatis rhoncus dolor purus vitae mauris. Nam.");
 
         }
     }

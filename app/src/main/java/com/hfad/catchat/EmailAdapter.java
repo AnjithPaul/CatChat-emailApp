@@ -16,20 +16,22 @@ public class EmailAdapter extends RecyclerView.Adapter<EmailAdapter.ViewHolder> 
     private String[] names;
     private String[] messages;
     private int[] imageIds;
-    private Listener listner;
+  //  private Listener listner;
 
     public EmailAdapter( String [] names, String[] messages, int[] imageIds){
         this.names = names;
         this.messages = messages;
         this.imageIds = imageIds;
     }
-
+/*
     interface Listener {
         void onClick(int position);
     }
     public void setListner(Listener listner){
         this.listner = listner;
     }
+
+ */
 
     @Override
     public int getItemCount(){
@@ -64,7 +66,7 @@ public class EmailAdapter extends RecyclerView.Adapter<EmailAdapter.ViewHolder> 
         title.setText(names[position]);
         TextView content = cardView.findViewById(R.id.card_content);
         content.setText(messages[position]);
-        cardView.setOnClickListener(new View.OnClickListener() {
+        /*cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(listner!=null){
@@ -72,5 +74,7 @@ public class EmailAdapter extends RecyclerView.Adapter<EmailAdapter.ViewHolder> 
                 }
             }
         });
+
+         */
     }
 }

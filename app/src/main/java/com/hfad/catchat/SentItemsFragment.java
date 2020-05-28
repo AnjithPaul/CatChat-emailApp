@@ -1,6 +1,7 @@
 package com.hfad.catchat;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -63,6 +64,17 @@ public class SentItemsFragment extends Fragment {
                     removeItem((long) viewHolder.itemView.getTag());
                 }
             }).attachToRecyclerView(sentItemsRecycler);
+
+        adapter.setListner(new DbRecyclerAdapter.Listener() {
+            @Override
+            public void onClick(int position) {
+                Intent intent = new Intent(getActivity(),ViewMailActivity.class);
+                intent.putExtra(ViewMailActivity.EXTRA_MAIL_ID,position);
+                intent.putExtra(ViewMailActivity.EXTRA_TABLE_NAME,"SENTMAIL");
+                getActivity().startActivity(intent);
+
+            }
+        });
             return sentItemsRecycler;
 
     }

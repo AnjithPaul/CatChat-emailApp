@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,14 +13,25 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 public class DbRecyclerAdapter extends RecyclerView.Adapter<DbRecyclerAdapter.ViewHolder> {
 
     private Context context;
     private Cursor cursor;
+    private Listener listner;
 
     public DbRecyclerAdapter(Context context ,Cursor cursor){
         this.context = context;
         this.cursor = cursor;
+    }
+
+    interface Listener{
+        void onClick(int position);
+    }
+
+    public void setListner(DbRecyclerAdapter.Listener listner){
+        this.listner = listner;
     }
 
     @Override
@@ -47,7 +59,7 @@ public class DbRecyclerAdapter extends RecyclerView.Adapter<DbRecyclerAdapter.Vi
         String name = cursor.getString(cursor.getColumnIndex("EMAILID"));
        // String subject = cursor.getString(cursor.getColumnIndex("SUBJECT"));
         String message = cursor.getString(cursor.getColumnIndex("MESSAGE"));
-        long id = cursor.getLong(cursor.getColumnIndex("_id"));
+        final int id = cursor.getInt(cursor.getColumnIndex("_id"));
 
         CardView cardView = holder.cv;
         TextView title = cardView.findViewById(R.id.card_title);
@@ -59,6 +71,15 @@ public class DbRecyclerAdapter extends RecyclerView.Adapter<DbRecyclerAdapter.Vi
         title.setText(name);
         content.setText(message);
         imageView.setImageResource(R.drawable.default_dp);
+
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listner!=null){
+                    listner.onClick(id);
+                }
+            }
+        });
 
     }
 
