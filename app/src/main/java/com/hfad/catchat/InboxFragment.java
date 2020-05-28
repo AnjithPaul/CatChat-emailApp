@@ -2,6 +2,10 @@ package com.hfad.catchat;
 
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,12 +16,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.zip.Inflater;
 
 
 public class InboxFragment extends Fragment {
 
+    private SQLiteDatabase db;
+    private DbRecyclerAdapter adapter;
 
     public InboxFragment() {
         // Required empty public constructor
@@ -30,28 +37,20 @@ public class InboxFragment extends Fragment {
 
         RecyclerView inboxRecycler = (RecyclerView) inflater.inflate(R.layout.fragment_inbox,container,false);
 
-        String[] emailNames = new String[email.emails.length];
-        for(int i=0;i<email.emails.length;i++){
-            emailNames[i]=email.emails[i].getName();
+        final SQLiteOpenHelper dbHelper = new EmailDatabaseHelper(getActivity());
+        try {
+            db = dbHelper.getReadableDatabase();
+            Cursor cursor = getAllItems();
+            adapter = new DbRecyclerAdapter(getActivity(), cursor);
+            inboxRecycler.setAdapter(adapter);
+        }catch (SQLException e){
+            Toast toast =Toast.makeText(getActivity(),"Database unavailable",Toast.LENGTH_SHORT);
+            toast.show();
         }
-
-        String[] emailContent = new String[email.emails.length];
-        for(int i=0;i<email.emails.length;i++){
-            emailContent[i]=email.emails[i].getMessage();
-        }
-
-        int[] userImages = new int[email.emails.length];
-        for(int i=0;i<email.emails.length;i++){
-            userImages[i] = email.emails[i].getImageResourceId();
-        }
-
-        EmailAdapter adapter = new EmailAdapter(emailNames,emailContent,userImages);
-        inboxRecycler.setAdapter(adapter);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         inboxRecycler.setLayoutManager(layoutManager);
 
-        adapter.setListner(new EmailAdapter.Listener() {
+       /* adapter.setListner(new EmailAdapter.Listener() {
             @Override
             public void onClick(int position) {
                 Intent intent = new Intent(getActivity(),ViewMailActivity.class);
@@ -60,7 +59,14 @@ public class InboxFragment extends Fragment {
 
             }
         });
+
+        */
         return inboxRecycler;
     }
+
+    private Cursor getAllItems() {
+        return db.query("RECEIVEDMAIL", new String[]{"_id","EMAILID","SUBJECT","MESSAGE","TIME"}, null, null, null, null,"TIME DESC");
+    }
+
 
 }

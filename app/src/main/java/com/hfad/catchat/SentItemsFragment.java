@@ -45,7 +45,6 @@ public class SentItemsFragment extends Fragment {
             Cursor cursor = getAllItems();
             adapter = new DbRecyclerAdapter(getActivity(), cursor);
             sentItemsRecycler.setAdapter(adapter);
-            Log.v("try is clear ","OK");
         }catch (SQLException e){
             Toast toast =Toast.makeText(getActivity(),"Database unavailable",Toast.LENGTH_SHORT);
             toast.show();
